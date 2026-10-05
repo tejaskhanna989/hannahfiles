@@ -37,7 +37,7 @@ func Run(content embed.FS) {
 	app := &cli.Command{
 		Name:        "hannahfiles",
 		Version:     variable.CurrentVersion + variable.PreReleaseSuffix,
-		Description: "Pretty fancy and modern terminal file manager ",
+		Description: "HannahFiles: the best of both worlds (a joke file manager)",
 		ArgsUsage:   "[PATH]...",
 		Commands: []*cli.Command{
 			{

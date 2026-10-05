@@ -18,6 +18,15 @@ No affiliation with Disney, Miley Cyrus, or anyone else. This is a joke.
 | `nashville.jpg` | [Commons](https://commons.wikimedia.org/wiki/File:Miley_Cyrus_during_Wonder_World_Tour_concert_in_Nashville.jpg) | CC BY-SA 2.0 | Mike Schmid |
 | `portland.jpg` | [Commons](https://commons.wikimedia.org/wiki/File:Miley_Cyrus_singing_during_the_Wonder_World_Tour_concert_in_Portland,_Oregon.jpg) | CC BY 2.0 | Bonnie |
 | `kids-inaugural.jpg` | [Commons](https://commons.wikimedia.org/wiki/File:Miley_and_Billy_Ray_Cyrus_at_Kids_Inaugural_Concert.jpg) | Public domain | Mark O'Donald (U.S. Navy) |
+| `detroit-3.jpg` | [Commons](https://commons.wikimedia.org/wiki/File:Miley_Cyrus_during_the_Wonder_World_concert_in_Detroit_3.jpg) | CC BY 2.0 | Sam Borowski |
+| `detroit-4.jpg` | [Commons](https://commons.wikimedia.org/wiki/File:Miley_Cyrus_during_the_Wonder_World_concert_in_Detroit_4.jpg) | CC BY 2.0 | Sam Borowski |
+| `detroit-5.jpg` | [Commons](https://commons.wikimedia.org/wiki/File:Miley_Cyrus_during_the_Wonder_World_concert_in_Detroit_5.jpg) | CC BY 2.0 | Sam Borowski |
+| `detroit-8.jpg` | [Commons](https://commons.wikimedia.org/wiki/File:Miley_Cyrus_during_the_Wonder_World_concert_in_Detroit_8.jpg) | CC BY 2.0 | Sam Borowski |
+| `nashville-2.jpg` | [Commons](https://commons.wikimedia.org/wiki/File:Miley_Cyrus_during_Wonder_World_Tour_concert_in_Nashville_2.jpg) | CC BY-SA 2.0 | Mike Schmid |
+| `primavera.jpg` | [Commons](https://commons.wikimedia.org/wiki/File:Miley_Cyrus_Primavera19_-226_(48986293772)_(cropped).jpg) | CC BY 2.0 | Raphael Pour-Hashemi |
+| `lollapalooza-2022.jpg` | [Commons](https://commons.wikimedia.org/wiki/File:Miley_Cyrus_no_palco_do_Lollapalooza_Brasil_2022.jpg) | CC BY-SA 4.0 | Rn.brito |
+| `kids-inaugural-2.jpg` | [Commons](https://commons.wikimedia.org/wiki/File:Miley_Cyrus_at_Kids'_Inaugural_2_recropped.jpg) | Public domain | U.S. Navy |
 
 CC BY 2.0: https://creativecommons.org/licenses/by/2.0/
 CC BY-SA 2.0: https://creativecommons.org/licenses/by-sa/2.0/
+CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
