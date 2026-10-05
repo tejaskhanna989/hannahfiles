@@ -95,3 +95,32 @@ jobs:
           choco install nsis -y --no-progress
           & 'C:\Program Files (x86)\NSIS\makensis.exe' /DAPPDIR="$($pub.FullName)" /DOUTFILE="${{ github.workspace }}\HannahFiles-setup-x64.exe" windows\installer\hannahfiles.nsi
           gh release upload "${{ github.ref_name }}" "HannahFiles-windows-x64-portable.zip" "HannahFiles-setup-x64.exe" --clobber
+
+  gui-release:
+    needs: linux-release
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: linux-gui
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: linux-gui/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build AppImage + deb
+        run: npx electron-builder --linux
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload GUI installers to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${{ github.ref_name }}" dist/*.AppImage dist/*.deb --clobber

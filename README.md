@@ -6,8 +6,9 @@ A **joke** file manager for Windows **and** Linux — one repo, one project, GPL
 | Platform | Location | Stack |
 |----------|----------|-------|
 | Windows  | [`windows/`](windows/) | WinUI 3 / Windows App SDK, based on [Files](https://github.com/files-community/Files) |
-| Linux    | [`linux/`](linux/)     | Terminal UI in Go, based on [superfile](https://github.com/yorukot/superfile) |
-| Vibes    | [`wallpapers/`](wallpapers/) | Ten real Miley-on-stage photos. Sweet nibblets! |
+| Linux terminal | [`linux/`](linux/) | Terminal UI in Go, based on [superfile](https://github.com/yorukot/superfile) |
+| Linux GUI | [`linux-gui/`](linux-gui/) | Electron, pop-star purple, Miley in the preview pane |
+| Vibes    | [`wallpapers/`](wallpapers/) | Real Miley-on-stage photos. Sweet nibblets! |
 
 ## License — GPLv3
 
@@ -20,7 +21,8 @@ The whole project is released under the **GNU General Public License v3 or later
 ## Install
 
 - **Windows**: `HannahFiles CI — Windows` uploads a portable ZIP per push (`HannahFiles-windows-x64-portable`). Unzip and run — needs the [Windows App Runtime](https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/downloads) on the machine. (MSIX packaging is currently broken upstream-on-this-toolchain for everyone, so portable it is.)
-- **Linux**: push a `v*` tag for a full GoReleaser release (`.deb`, `.rpm`, `.tar.gz`); every push also uploads a snapshot to the `HannahFiles-linux-snapshot` artifact.
+- **Linux terminal**: push a `v*` tag for a full GoReleaser release (`.deb`, `.rpm`, `.tar.gz`); every push also uploads a snapshot to the `HannahFiles-linux-snapshot` artifact.
+- **Linux GUI**: `HannahFiles CI — Linux GUI` builds an AppImage + `.deb` per push; tagged releases attach them too.
 
 ## CI
 

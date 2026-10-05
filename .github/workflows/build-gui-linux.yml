@@ -1,0 +1,45 @@
+name: HannahFiles CI — Linux GUI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'linux-gui/**'
+      - '.github/workflows/build-gui-linux.yml'
+  pull_request:
+    paths:
+      - 'linux-gui/**'
+      - '.github/workflows/build-gui-linux.yml'
+  workflow_dispatch:
+
+jobs:
+  build-gui-linux:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: linux-gui
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: linux-gui/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build AppImage + deb
+        run: npx electron-builder --linux
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload GUI installers
+        uses: actions/upload-artifact@v4
+        with:
+          name: HannahFiles-gui-linux
+          path: |
+            linux-gui/dist/*.AppImage
+            linux-gui/dist/*.deb

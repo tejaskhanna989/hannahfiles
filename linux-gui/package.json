@@ -1,0 +1,53 @@
+{
+  "name": "hannahfiles-gui",
+  "version": "0.1.0",
+  "description": "HannahFiles GUI — a joke graphical file manager for Linux",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:linux": "electron-builder --linux",
+    "dist:all": "electron-builder --win --linux"
+  },
+  "keywords": [
+    "file-manager",
+    "electron",
+    "windows",
+    "linux"
+  ],
+  "author": "tejaskhanna989",
+  "license": "GPL-3.0-only",
+  "devDependencies": {
+    "electron": "^38.8.6",
+    "electron-builder": "^26.0.12"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16"
+  },
+  "build": {
+    "appId": "com.hannahfiles.gui",
+    "productName": "HannahFiles",
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "package.json"
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility",
+      "icon": "renderer/assets/icon.png",
+      "maintainer": "tejaskhanna989",
+      "description": "HannahFiles GUI - a joke graphical file manager for Linux"
+    }
+  },
+  "allowScripts": {
+    "electron@38.8.6": true,
+    "electron-winstaller@5.4.0": true
+  }
+}
