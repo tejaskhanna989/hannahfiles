@@ -1,6 +1,6 @@
 # HannahFiles for Linux
 
-HannahFiles for Linux is a fancy terminal file manager (GPLv3), based on [superfile](https://github.com/yorukot/superfile) (© Yorukot, MIT — see [LICENSE](LICENSE), [NOTICE.md](NOTICE.md)).
+HannahFiles for Linux is a **joke** fancy terminal file manager (GPLv3), based on [superfile](https://github.com/yorukot/superfile) (© Yorukot, MIT — see [LICENSE](LICENSE), [NOTICE.md](NOTICE.md)).
 
 Binary name: `hannahfiles`. Config lives in `~/.config/hannahfiles`.
 

@@ -96,7 +96,7 @@
 
             <uap:VisualElements
                 DisplayName="HannahFiles"
-                Description="HannahFiles — a fast community file manager for Windows, based on Files."
+                Description="HannahFiles — a joke file manager for Windows, based on Files."
                 Square150x150Logo="Assets\AppTiles\Dev\Square150x150Logo.png"
                 Square44x44Logo="Assets\AppTiles\Dev\Square44x44Logo.png"
                 BackgroundColor="transparent">

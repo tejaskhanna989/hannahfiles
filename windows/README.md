@@ -1,6 +1,6 @@
 # HannahFiles
 
-HannahFiles is a file manager for **Windows**, built on [Files](https://github.com/files-community/Files) (© Files Community, MIT licensed).
+HannahFiles is a **joke** file manager for **Windows**, built on [Files](https://github.com/files-community/Files) (© Files Community, MIT licensed).
 
 ## License — GPLv3
 

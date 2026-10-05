@@ -1,11 +1,13 @@
-# HannahFiles
+# HannahFiles 🎤
 
-A file manager for Windows **and** Linux — one repo, one project, GPLv3.
+A **joke** file manager for Windows **and** Linux — one repo, one project, GPLv3.
+(Inspired by the legendary Hannah Montana Linux. No affiliation with Disney.)
 
 | Platform | Location | Stack |
 |----------|----------|-------|
 | Windows  | [`windows/`](windows/) | WinUI 3 / Windows App SDK, based on [Files](https://github.com/files-community/Files) |
-| Linux    | [`linux/`](linux/)     | Landing here soon |
+| Linux    | [`linux/`](linux/)     | Terminal UI in Go, based on [superfile](https://github.com/yorukot/superfile) |
+| Vibes    | [`wallpapers/`](wallpapers/) | Ten real Miley-on-stage photos. Sweet nibblets! |
 
 ## License — GPLv3
 
