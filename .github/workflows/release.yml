@@ -75,14 +75,19 @@ jobs:
             -p:PackageCertificateKeyFile="${{ github.workspace }}\windows-ci-selfsigned.pfx" `
             -p:PackageCertificatePassword="" `
             -p:PackageCertificateThumbprint="" `
-            -p:PublishReadyToRun=true
+            -p:PublishReadyToRun=true `
+            -p:GenerateAppxPackageOnBuild=true `
+            -p:UapAppxPackageBuildMode=SideloadOnly `
+            -p:AppxBundle=Always `
+            -p:AppxBundlePlatforms=x64 `
+            -p:AppxPackageDir="${{ github.workspace }}\AppxPackages\"
 
       - name: Upload MSIX to release
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          $pkg = Get-ChildItem windows -Recurse -Include *.msixbundle |
+          $pkg = Get-ChildItem AppxPackages -Recurse -Include *.msixbundle, *.msix |
             Where-Object { $_.DirectoryName -notmatch '\\Dependencies\\' } |
             Select-Object -First 1
           if (-not $pkg) { throw "No .msixbundle found" }

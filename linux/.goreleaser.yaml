@@ -3,7 +3,8 @@ version: 2
 project_name: hannahfiles
 
 builds:
-  - main: .
+  - id: hannahfiles
+    main: .
     binary: hannahfiles
     goos:
       - linux
@@ -29,6 +30,8 @@ archives:
 
 nfpms:
   - package_name: hannahfiles
+    ids:
+      - hannahfiles
     file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     formats:
       - deb
@@ -38,8 +41,7 @@ nfpms:
     homepage: https://github.com/tejaskhanna989/hannahfiles
     license: GPL-3.0-only
     contents:
-      - src: hannahfiles
-        dst: /usr/bin/hannahfiles
+      # Note: the hannahfiles binary itself is added automatically.
       - src: asset/hannahfiles.desktop
         dst: /usr/share/applications/hannahfiles.desktop
       - src: asset/io.github.tejaskhanna989.hannahfiles.metainfo.xml

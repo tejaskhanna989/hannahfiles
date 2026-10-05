@@ -56,15 +56,15 @@ jobs:
             -p:PackageCertificateKeyFile="$env:APPX_SELFSIGNED_CERT_PATH" `
             -p:PackageCertificatePassword="" `
             -p:PackageCertificateThumbprint="" `
-            -p:PublishReadyToRun=true
+            -p:PublishReadyToRun=true `
+            -p:GenerateAppxPackageOnBuild=true `
+            -p:UapAppxPackageBuildMode=SideloadOnly `
+            -p:AppxBundle=Always `
+            -p:AppxBundlePlatforms=x64 `
+            -p:AppxPackageDir="${{ github.workspace }}\AppxPackages\"
 
       - name: Upload MSIX installer
         uses: actions/upload-artifact@v4
         with:
           name: HannahFiles-windows-x64
-          path: |
-            windows/**/AppPackages/**/*.msixbundle
-            windows/**/AppPackages/**/*.msix
-            windows/artifacts/**/*.msixbundle
-            windows/artifacts/**/*.msix
-          if-no-files-found: warn
+          path: AppxPackages/**/*.{msix,msixbundle}
