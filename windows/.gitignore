@@ -409,3 +409,11 @@ FodyWeavers.xsd
 *.sln.iml
 .idea/
 src/Files.App/Assets/FilesOpenDialog/Files.App.Launcher.exe.sha256
+
+# HannahFiles: the broad patterns above also match real source/asset dirs.
+# Re-include them so fresh clones track everything upstream tracks.
+!src/**/Helpers/Win32/
+!src/Files.App/Assets/AppTiles/Release/
+!**/PublishProfiles/
+!**/Properties/launchSettings.json
+!**/PublishProfiles/*.pubxml
