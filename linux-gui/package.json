@@ -30,6 +30,11 @@
   "build": {
     "appId": "com.hannahfiles.gui",
     "productName": "HannahFiles",
+    "publish": {
+      "provider": "github",
+      "owner": "tejaskhanna989",
+      "repo": "hannahfiles"
+    },
     "files": [
       "main.js",
       "preload.js",
