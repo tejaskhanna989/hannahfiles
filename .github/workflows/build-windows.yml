@@ -12,10 +12,14 @@ on:
       - '.github/workflows/build-windows.yml'
   workflow_dispatch:
 
+# Proven recipe mirrors upstream's sideload pipeline:
+# restore -> nuget restore (C++ Launcher) -> build launcher ->
+# build+package (unsigned) -> bundle -> self-sign.
 env:
-  SOLUTION_PATH: '${{ github.workspace }}\windows\Files.slnx'
-  APP_PROJECT_PATH: '${{ github.workspace }}\windows\src\Files.App\Files.App.csproj'
-  APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\windows-ci-selfsigned.pfx'
+  APP_PROJECT_PATH: 'windows\src\Files.App\Files.App.csproj'
+  LAUNCHER_PROJECT_PATH: 'windows\src\Files.App.Launcher\Files.App.Launcher.vcxproj'
+  APPX_PACKAGE_DIR: '${{ github.workspace }}\AppxPackages'
+  CERT_PATH: '${{ github.workspace }}\windows-ci-selfsigned.pfx'
 
 jobs:
   build-windows:
@@ -36,35 +40,61 @@ jobs:
 
       - name: Restore solution
         run: |
-          msbuild $env:SOLUTION_PATH `
+          msbuild windows\Files.slnx `
             -t:Restore `
             -p:Platform=x64 `
             -p:Configuration=Release `
             -p:PublishReadyToRun=true
 
+      - name: Restore NuGet packages for Launcher project
+        run: |
+          nuget restore "$env:LAUNCHER_PROJECT_PATH" `
+            -SolutionDirectory "windows"
+
+      - name: Build launcher project
+        run: |
+          msbuild "$env:LAUNCHER_PROJECT_PATH" `
+            -t:Build `
+            -p:Platform=x64 `
+            -p:Configuration=Release
+
       - name: Create self-signed cert
         shell: pwsh
-        run: windows\.github\scripts\Generate-SelfCertPfx.ps1 -Destination "$env:APPX_SELFSIGNED_CERT_PATH"
+        run: windows\.github\scripts\Generate-SelfCertPfx.ps1 -Destination "$env:CERT_PATH"
 
-      - name: Build & package (signed MSIX, x64 Release)
+      - name: Build & package Files (unsigned MSIX)
         run: |
-          msbuild $env:APP_PROJECT_PATH `
+          msbuild "$env:APP_PROJECT_PATH" `
             -t:Build `
-            -p:Configuration=Release `
             -p:Platform=x64 `
-            -p:AppxPackageSigningEnabled=true `
-            -p:PackageCertificateKeyFile="$env:APPX_SELFSIGNED_CERT_PATH" `
-            -p:PackageCertificatePassword="" `
-            -p:PackageCertificateThumbprint="" `
-            -p:PublishReadyToRun=true `
+            -p:Configuration=Release `
+            -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
+            -p:AppxBundle=Never `
             -p:GenerateAppxPackageOnBuild=true `
-            -p:UapAppxPackageBuildMode=SideloadOnly `
-            -p:AppxBundle=Always `
-            -p:AppxBundlePlatforms=x64 `
-            -p:AppxPackageDir="${{ github.workspace }}\AppxPackages\"
+            -p:UapAppxPackageBuildMode=Sideload
+
+      - name: Create msixbundle
+        shell: pwsh
+        run: |
+          windows\.github\scripts\Create-MsixBundle.ps1 `
+            -AppxPackageDir "$env:APPX_PACKAGE_DIR" `
+            -BundleName "HannahFiles.Package" `
+            -PackageManifestPath "windows\src\Files.App\Package.appxmanifest" `
+            -BuildMode "Sideload"
+
+      - name: Sign bundle with self-signed cert
+        shell: pwsh
+        run: |
+          $signtool = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\x64\signtool.exe" |
+            Sort-Object FullName -Descending | Select-Object -First 1
+          $bundle = Get-ChildItem AppxPackages -Recurse -Filter *.msixbundle |
+            Where-Object { $_.DirectoryName -notmatch '\\Dependencies\\' } |
+            Select-Object -First 1
+          if (-not $bundle) { throw "No .msixbundle found to sign" }
+          & $signtool sign /fd SHA256 /f "$env:CERT_PATH" "$($bundle.FullName)"
 
       - name: Upload MSIX installer
         uses: actions/upload-artifact@v4
         with:
           name: HannahFiles-windows-x64
-          path: AppxPackages/**/*.{msix,msixbundle}
+          path: AppxPackages/**/*
