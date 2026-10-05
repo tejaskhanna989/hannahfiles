@@ -116,7 +116,7 @@ jobs:
         run: npm ci
 
       - name: Build AppImage + deb
-        run: npx electron-builder --linux
+        run: npx electron-builder --linux --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
