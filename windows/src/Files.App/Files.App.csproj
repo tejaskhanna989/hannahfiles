@@ -84,6 +84,9 @@
         <Content Update="Assets\FilesOpenDialog\Files.App.Launcher.exe">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Include="Assets\Wallpapers\*.jpg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
         <Content Include="7z.dll" Condition="'$(Platform)' == 'x86'">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>

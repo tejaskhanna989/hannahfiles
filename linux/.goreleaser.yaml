@@ -27,6 +27,8 @@ archives:
       - asset/hannahfiles.desktop
       - asset/hannahfiles.svg
       - asset/io.github.tejaskhanna989.hannahfiles.metainfo.xml
+      - ../wallpapers/*.jpg
+      - ../wallpapers/ATTRIBUTION.md
 
 nfpms:
   - package_name: hannahfiles
@@ -48,6 +50,10 @@ nfpms:
         dst: /usr/share/metainfo/io.github.tejaskhanna989.hannahfiles.metainfo.xml
       - src: asset/hannahfiles.svg
         dst: /usr/share/icons/hicolor/scalable/apps/hannahfiles.svg
+      - src: ../wallpapers/*.jpg
+        dst: /usr/share/hannahfiles/wallpapers/
+      - src: ../wallpapers/ATTRIBUTION.md
+        dst: /usr/share/doc/hannahfiles/ATTRIBUTION.md
 
 changelog:
   sort: asc

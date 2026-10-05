@@ -69,9 +69,21 @@ jobs:
             Select-Object -First 1
           if (-not $pub) { throw "Publish output not found" }
           Compress-Archive -Path "$($pub.FullName)\*" -DestinationPath "HannahFiles-windows-x64-portable.zip"
+          "PUBDIR=$($pub.FullName)" >> $env:GITHUB_ENV
 
-      - name: Upload portable ZIP
+      - name: Install NSIS
+        shell: pwsh
+        run: choco install nsis -y --no-progress
+
+      - name: Build setup EXE
+        shell: pwsh
+        run: |
+          & 'C:\Program Files (x86)\NSIS\makensis.exe' /DAPPDIR="$env:PUBDIR" /DOUTFILE="HannahFiles-setup-x64.exe" windows\installer\hannahfiles.nsi
+
+      - name: Upload installers
         uses: actions/upload-artifact@v4
         with:
-          name: HannahFiles-windows-x64-portable
-          path: HannahFiles-windows-x64-portable.zip
+          name: HannahFiles-windows-x64
+          path: |
+            HannahFiles-windows-x64-portable.zip
+            HannahFiles-setup-x64.exe

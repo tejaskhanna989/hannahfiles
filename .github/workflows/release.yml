@@ -82,7 +82,7 @@ jobs:
           dotnet publish "$env:APP_PROJECT_PATH" `
             -c Release -r win-x64 --self-contained -p:Platform=x64
 
-      - name: Zip portable build and upload to release
+      - name: Zip portable build and build setup EXE
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -92,4 +92,6 @@ jobs:
             Select-Object -First 1
           if (-not $pub) { throw "Publish output not found" }
           Compress-Archive -Path "$($pub.FullName)\*" -DestinationPath "HannahFiles-windows-x64-portable.zip"
-          gh release upload "${{ github.ref_name }}" "HannahFiles-windows-x64-portable.zip" --clobber
+          choco install nsis -y --no-progress
+          & 'C:\Program Files (x86)\NSIS\makensis.exe' /DAPPDIR="$($pub.FullName)" /DOUTFILE="HannahFiles-setup-x64.exe" windows\installer\hannahfiles.nsi
+          gh release upload "${{ github.ref_name }}" "HannahFiles-windows-x64-portable.zip" "HannahFiles-setup-x64.exe" --clobber
