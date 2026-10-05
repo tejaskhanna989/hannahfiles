@@ -1,43 +1,43 @@
 # HannahFiles
 
-Cross-platform file manager for **Windows and Linux** built with Electron.
+HannahFiles is a file manager for **Windows**, built on [Files](https://github.com/files-community/Files) (© Files Community, MIT licensed).
 
-## Features
+## License — GPLv3
 
-- Tabs + dual-pane (⇄ copy/move between panes)
-- Grid / list / details views, sorting (dirs-first), show-hidden
-- Copy / cut / paste (Ctrl+C/X/V), rename (F2), delete to OS trash, new file/folder
-- Recursive search in current folder
-- Preview panel: text + image, file metadata
-- ★ Favorites, 🏷 tags (work/personal/important/media/archive)
-- 🗜️ Zip / unzip (adm-zip)
-- Dark / light mode
-- Windows drives (C:\…) + Linux roots (/, ~, /media, /mnt)
+This fork is released under the **GNU General Public License v3 or later**. See [COPYING](COPYING) for the full text.
 
-## Run
+Upstream license files are preserved as required:
 
-```bash
-npm install
-npm start
-```
+- [LICENSE-MIT](LICENSE-MIT) — Files Community code (MIT). MIT permits redistribution under GPLv3 provided the copyright notice is kept.
+- [LICENSE-MPL](LICENSE-MPL) — Mozilla Public License 2.0 covering some upstream files (MPL-2.0 is GPLv3-compatible).
 
-## Build installers
+Modifications vs upstream are tracked in git history (`DisplayName`/identity rebrand to HannahFiles, app tiles regenerated from `brand/logo.svg`-equivalent artwork, this README, `COPYING`).
 
-```bash
-npm run dist:win    # .exe installer + portable (on Windows, or with wine)
-npm run dist:linux  # AppImage + .deb (on Linux)
-npm run dist:all    # both
-```
+## Requirements (Windows only)
 
-Output goes to `dist/`.
+> Note: Files is a WinUI 3 / Windows App SDK app. It builds and runs on **Windows only** — there is no Linux build for this codebase.
 
-## Stack
+- Windows 10 version 1809 (build 17763) or later / Windows 11
+- Visual Studio 2022 17.12+ with `.NET desktop development` and `Windows App SDK` workloads
+- .NET SDK 10 (`global.json` pins 10.0.102, rolls forward)
 
-- Electron (main + preload bridge, no nodeIntegration in renderer)
-- Plain HTML/CSS/JS, no build step
-- `adm-zip` for archives
+## Build
 
-## Notes
+1. Open `Files.slnx` in Visual Studio.
+2. Set the startup project to `Files.App`, platform `x64`.
+3. Press F5 to run unpackaged, or **Publish → Create App Packages** for a sideload `.msixbundle`.
 
-- Delete uses OS trash first (`shell.trashItem`), falls back to permanent delete.
-- Tags/favorites/theme stored in `localStorage`.
+Signing: sideload packages need a certificate. For dev, Visual Studio generates a test certificate automatically. For releases, sign with your own cert and update the `Publisher="CN=..."` attribute in `src/Files.App/Package.appxmanifest` to match.
+
+CI: `.github/workflows/ci.yml` (from upstream) builds pull requests on Windows runners. The `cd-*` workflows are the upstream release pipelines and need store/sideload secrets configured to run.
+
+## Rebrand status
+
+- [x] App identity: `HannahFilesDev`, display name `HannahFiles` (`Package.appxmanifest`)
+- [x] Tiles/icons regenerated from the HannahFiles logo (`Assets/AppTiles/{Dev,Preview,Release}`)
+- [ ] In-app strings still say "Files" in places (Settings, About) — follow-up
+- [ ] Default-app registration / protocol names still upstream — follow-up
+
+## Credits
+
+All application code © Files Community and contributors (MIT). Fork packaging, branding, and modifications © the HannahFiles contributors (GPLv3).
