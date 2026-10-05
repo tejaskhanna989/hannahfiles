@@ -19,7 +19,7 @@ The whole project is released under the **GNU General Public License v3 or later
 
 ## Install
 
-- **Windows**: `HannahFiles CI — Windows` uploads a signed (self-signed cert) MSIX per push — see the workflow artifacts. Double-click to install (first install asks you to trust the certificate). Tagged releases will carry release builds.
+- **Windows**: `HannahFiles CI — Windows` uploads a portable ZIP per push (`HannahFiles-windows-x64-portable`). Unzip and run — needs the [Windows App Runtime](https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/downloads) on the machine. (MSIX packaging is currently broken upstream-on-this-toolchain for everyone, so portable it is.)
 - **Linux**: push a `v*` tag for a full GoReleaser release (`.deb`, `.rpm`, `.tar.gz`); every push also uploads a snapshot to the `HannahFiles-linux-snapshot` artifact.
 
 ## CI
