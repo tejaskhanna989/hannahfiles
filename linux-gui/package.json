@@ -18,6 +18,7 @@
     "linux"
   ],
   "author": "tejaskhanna989",
+  "homepage": "https://github.com/tejaskhanna989/hannahfiles",
   "license": "GPL-3.0-only",
   "devDependencies": {
     "electron": "^38.8.6",
