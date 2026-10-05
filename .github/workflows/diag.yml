@@ -1,0 +1,13 @@
+name: Diag — list Compile items
+on: workflow_dispatch
+jobs:
+  diag:
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+      - uses: microsoft/setup-msbuild@v3
+      - name: Show Win32 folder on disk
+        shell: pwsh
+        run: Get-ChildItem windows\src\Files.App\Helpers\Win32 | Select-Object Name, Length
+      - name: List Compile items for Files.App
+        run: msbuild windows\src\Files.App\Files.App.csproj -getItem:Compile -p:Configuration=Release -p:Platform=x64
