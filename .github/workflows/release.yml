@@ -93,5 +93,5 @@ jobs:
           if (-not $pub) { throw "Publish output not found" }
           Compress-Archive -Path "$($pub.FullName)\*" -DestinationPath "HannahFiles-windows-x64-portable.zip"
           choco install nsis -y --no-progress
-          & 'C:\Program Files (x86)\NSIS\makensis.exe' /DAPPDIR="$($pub.FullName)" /DOUTFILE="HannahFiles-setup-x64.exe" windows\installer\hannahfiles.nsi
+          & 'C:\Program Files (x86)\NSIS\makensis.exe' /DAPPDIR="$($pub.FullName)" /DOUTFILE="${{ github.workspace }}\HannahFiles-setup-x64.exe" windows\installer\hannahfiles.nsi
           gh release upload "${{ github.ref_name }}" "HannahFiles-windows-x64-portable.zip" "HannahFiles-setup-x64.exe" --clobber

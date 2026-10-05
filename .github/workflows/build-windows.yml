@@ -78,7 +78,7 @@ jobs:
       - name: Build setup EXE
         shell: pwsh
         run: |
-          & 'C:\Program Files (x86)\NSIS\makensis.exe' /DAPPDIR="$env:PUBDIR" /DOUTFILE="HannahFiles-setup-x64.exe" windows\installer\hannahfiles.nsi
+          & 'C:\Program Files (x86)\NSIS\makensis.exe' /DAPPDIR="$env:PUBDIR" /DOUTFILE="${{ github.workspace }}\HannahFiles-setup-x64.exe" windows\installer\hannahfiles.nsi
 
       - name: Upload installers
         uses: actions/upload-artifact@v4
