@@ -1,0 +1,50 @@
+name: HannahFiles CI — Linux
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'linux/**'
+      - '.github/workflows/build-linux.yml'
+  pull_request:
+    paths:
+      - 'linux/**'
+      - '.github/workflows/build-linux.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: linux
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: linux/go.mod
+          cache-dependency-path: linux/go.sum
+
+      - name: Build installers (GoReleaser)
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: '~> v2'
+          workdir: linux
+          args: ${{ startsWith(github.ref, 'refs/tags/v') && 'release --clean' || 'build --snapshot --clean' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload snapshot artifacts
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: HannahFiles-linux-snapshot
+          path: linux/dist/**/*

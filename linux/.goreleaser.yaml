@@ -1,0 +1,51 @@
+version: 2
+
+project_name: hannahfiles
+
+builds:
+  - main: .
+    binary: hannahfiles
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    cgo_enabled: false
+    ldflags:
+      - -s -w -X github.com/tejaskhanna989/hannahfiles/linux/src/config.CurrentVersion={{.Version}}
+
+archives:
+  - formats:
+      - tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - NOTICE.md
+      - README.md
+      - asset/hannahfiles.desktop
+      - asset/hannahfiles.svg
+      - asset/io.github.tejaskhanna989.hannahfiles.metainfo.xml
+
+nfpms:
+  - package_name: hannahfiles
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    formats:
+      - deb
+      - rpm
+    maintainer: tejaskhanna989 <https://github.com/tejaskhanna989/hannahfiles>
+    description: HannahFiles — fancy terminal file manager for Linux (GPLv3 fork of superfile).
+    homepage: https://github.com/tejaskhanna989/hannahfiles
+    license: GPL-3.0-only
+    contents:
+      - src: hannahfiles
+        dst: /usr/bin/hannahfiles
+      - src: asset/hannahfiles.desktop
+        dst: /usr/share/applications/hannahfiles.desktop
+      - src: asset/io.github.tejaskhanna989.hannahfiles.metainfo.xml
+        dst: /usr/share/metainfo/io.github.tejaskhanna989.hannahfiles.metainfo.xml
+      - src: asset/hannahfiles.svg
+        dst: /usr/share/icons/hicolor/scalable/apps/hannahfiles.svg
+
+changelog:
+  sort: asc
+  use: github

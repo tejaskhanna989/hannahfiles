@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.tejaskhanna989.hannahfiles</id>
+
+  <name>HannahFiles</name>
+  <summary>Pretty fancy and modern terminal file manager</summary>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+
+  <description>
+    <p>
+      hannahfiles is a fancy, modern terminal file manager built with Go and Bubble Tea.
+      It combines a polished, multi-panel interface with the speed and power of terminal tools,
+      making it easy to browse, preview, and manage files without leaving the command line.
+    </p>
+  </description>
+
+  <url type="homepage">https://github.com/tejaskhanna989/hannahfiles/</url>
+  <url type="bugtracker">https://github.com/tejaskhanna989/hannahfiles/linux/issues</url>
+  <url type="vcs-browser">https://github.com/tejaskhanna989/hannahfiles/linux</url>
+
+  <developer id="io.github.tejaskhanna989">
+    <name>tejaskhanna989</name>
+  </developer>
+
+  <launchable type="desktop-id">hannahfiles.desktop</launchable>
+
+  <provides>
+    <binary>hannahfiles</binary>
+  </provides>
+
+  <categories>
+    <category>System</category>
+    <category>FileManager</category>
+  </categories>
+
+  <keywords>
+    <keyword>file</keyword>
+    <keyword>manager</keyword>
+    <keyword>terminal</keyword>
+    <keyword>explorer</keyword>
+  </keywords>
+
+  <content_rating type="oars-1.1" />
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/tejaskhanna989/hannahfiles/main/website/src/assets/demo.png</image>
+      <caption>hannahfiles terminal file manager</caption>
+    </screenshot>
+  </screenshots>
+</component>
