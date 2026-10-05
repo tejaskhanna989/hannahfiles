@@ -13,6 +13,7 @@ function createWindow() {
     minWidth: 900,
     minHeight: 600,
     title: 'HannahFiles',
+    icon: path.join(__dirname, 'renderer', 'assets', process.platform === 'win32' ? 'icon.ico' : 'icon.png'),
     autoHideMenuBar: true,
     backgroundColor: '#1e1e2e',
     webPreferences: {

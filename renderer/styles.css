@@ -89,11 +89,8 @@ button.mini:hover { color: var(--fg); }
   border-bottom: 1px solid var(--border);
 }
 .brand { display: flex; align-items: center; gap: 9px; padding-right: 4px; }
-.logo {
-  width: 30px; height: 30px; border-radius: 9px;
-  display: inline-flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #fff;
-  background: linear-gradient(135deg, #6e8bff, #9b6bff 60%, #39d0d8);
+.logo-img {
+  width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
   box-shadow: 0 4px 14px rgba(110, 139, 255, 0.4);
 }
 .brand-name { font-weight: 700; font-size: 14.5px; letter-spacing: -0.01em; white-space: nowrap; }
@@ -193,7 +190,15 @@ button.mini:hover { color: var(--fg); }
 }
 .card:hover { background: var(--hover); border-color: var(--border); }
 .card.sel { background: var(--sel); border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.card .ico { font-size: 34px; line-height: 1.2; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3)); }
+.card .ico { line-height: 1; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.card .ico .fic { width: 42px; height: 42px; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.35)); }
+.rico { display: inline-flex; flex-shrink: 0; }
+.rico .fic { width: 22px; height: 22px; }
+.t-ico { display: inline-flex; flex-shrink: 0; }
+.t-ico .fic { width: 15px; height: 15px; }
+#drives li span:last-child { flex: 1; text-align: left; }
+.s-ico { display: inline-flex; flex-shrink: 0; margin-right: 8px; }
+.s-ico .fic { width: 16px; height: 16px; }
 .card .nm { margin-top: 8px; font-size: 12px; font-weight: 500; line-height: 1.35; word-break: break-word; max-height: 34px; overflow: hidden; }
 .card.cut { opacity: 0.45; }
 

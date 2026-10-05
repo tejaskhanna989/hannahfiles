@@ -24,17 +24,33 @@ const setFavs = (f) => localStorage.setItem('hf.favs', JSON.stringify(f));
 
 const fmtSize = (b) => b < 1024 ? b + ' B' : b < 1048576 ? (b / 1024).toFixed(1) + ' KB' : b < 1073741824 ? (b / 1048576).toFixed(1) + ' MB' : (b / 1073741824).toFixed(2) + ' GB';
 const fmtDate = (ms) => new Date(ms).toLocaleString();
+/* Inline SVG file icons — no emoji-font dependency, crisp at any size */
+const IC = {
+  dir: '<svg class="fic" viewBox="0 0 24 24"><path d="M2.5 6.5c0-1.1.9-2 2-2h4l2 2.4h8c1.1 0 2 .9 2 2V17c0 1.1-.9 2-2 2h-14c-1.1 0-2-.9-2-2z" fill="#6e8bff"/><path d="M2.5 10.5h19V17c0 1.1-.9 2-2 2h-15c-1.1 0-2-.9-2-2z" fill="#a9bdff"/></svg>',
+  img: '<svg class="fic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5" fill="#3ecf8e"/><circle cx="9" cy="10" r="1.8" fill="#fff"/><path d="M4.5 18.5l4.5-5 3.2 3.6 2.4-2.6 4.4 4z" fill="#fff" opacity=".92"/></svg>',
+  video: '<svg class="fic" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="#9b6bff"/><path d="M10 9.3v5.4l4.8-2.7z" fill="#fff"/></svg>',
+  audio: '<svg class="fic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5" fill="#39d0d8"/><path d="M10 15.5V8.8l6-2v8.7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="15.8" r="2.2" fill="#fff"/><circle cx="14" cy="15.8" r="2.2" fill="#fff"/></svg>',
+  pdf: '<svg class="fic" viewBox="0 0 24 24"><path d="M6 2.5h8l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 20V4A1.5 1.5 0 0 1 6 2.5z" fill="#f25c5c"/><path d="M14 2.5v4.5h4" fill="#c93a3a"/><rect x="7.5" y="12" width="9" height="5.5" rx="1" fill="#fff" opacity=".92"/></svg>',
+  zip: '<svg class="fic" viewBox="0 0 24 24"><path d="M6 2.5h8l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 20V4A1.5 1.5 0 0 1 6 2.5z" fill="#ffb703"/><path d="M14 2.5v4.5h4" fill="#cf8a00"/><path d="M12 10v8M12 13.2h2.4M12 15.8H9.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  code: '<svg class="fic" viewBox="0 0 24 24"><path d="M6 2.5h8l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 20V4A1.5 1.5 0 0 1 6 2.5z" fill="#3b4356"/><path d="M14 2.5v4.5h4" fill="#232936"/><path d="M10 12.2l-2 1.8 2 1.8M14 12.2l2 1.8-2 1.8" stroke="#7cffb2" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  text: '<svg class="fic" viewBox="0 0 24 24"><path d="M6 2.5h8l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 20V4A1.5 1.5 0 0 1 6 2.5z" fill="#c7cfdd"/><path d="M14 2.5v4.5h4" fill="#9aa4b5"/><path d="M8.5 12.5h7M8.5 15.5h7M8.5 18.5h4.5" stroke="#5f6b80" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  exe: '<svg class="fic" viewBox="0 0 24 24"><path d="M6 2.5h8l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 20V4A1.5 1.5 0 0 1 6 2.5z" fill="#8b94a7"/><path d="M14 2.5v4.5h4" fill="#5b6376"/><circle cx="12" cy="14.5" r="3" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M12 14.5l1.2-1.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  drive: '<svg class="fic" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="10" rx="2" fill="#4a5468"/><rect x="2.5" y="7" width="19" height="4" rx="2" fill="#333b4e"/><circle cx="18.5" cy="14.5" r="1.2" fill="#39d0d8"/></svg>',
+  sun: '<svg class="fic" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="4.4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  moon: '<svg class="fic" viewBox="0 0 24 24" width="16" height="16"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>',
+};
 const iconFor = (f) => {
-  if (f.isDir) return '📁';
+  if (f.isDir) return IC.dir;
   const e = (f.ext || '').toLowerCase();
-  if (['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.bmp'].includes(e)) return '🖼️';
-  if (['.mp4', '.mkv', '.webm', '.avi'].includes(e)) return '🎬';
-  if (['.mp3', '.wav', '.ogg', '.flac'].includes(e)) return '🎵';
-  if (['.pdf'].includes(e)) return '📕';
-  if (['.zip', '.tar', '.gz', '.7z', '.rar'].includes(e)) return '🗜️';
-  if (['.txt', '.md', '.json', '.js', '.html', '.css', '.py', '.log'].includes(e)) return '📄';
-  if (['.exe', '.msi', '.deb', '.AppImage'].includes(e)) return '⚙️';
-  return '📄';
+  if (['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.bmp', '.ico'].includes(e)) return IC.img;
+  if (['.mp4', '.mkv', '.webm', '.avi', '.mov'].includes(e)) return IC.video;
+  if (['.mp3', '.wav', '.ogg', '.flac', '.m4a'].includes(e)) return IC.audio;
+  if (['.pdf'].includes(e)) return IC.pdf;
+  if (['.zip', '.tar', '.gz', '.7z', '.rar'].includes(e)) return IC.zip;
+  if (['.js', '.html', '.css', '.py', '.json', '.ts', '.tsx', '.jsx', '.c', '.cpp', '.rs', '.go', '.java', '.sh', '.yml', '.yaml', '.xml'].includes(e)) return IC.code;
+  if (['.txt', '.md', '.log', '.csv', '.ini', '.cfg'].includes(e)) return IC.text;
+  if (['.exe', '.msi', '.deb', '.AppImage', '.dmg'].includes(e)) return IC.exe;
+  return IC.text;
 };
 const isWin = () => state.platform === 'win32';
 const splitPath = (p) => {
@@ -70,7 +86,7 @@ const parentOf = (p) => {
 function applyTheme() {
   const t = localStorage.getItem('hf.theme') || 'dark';
   document.documentElement.dataset.theme = t;
-  const b = $('#btn-theme'); if (b) b.textContent = t === 'dark' ? '🌙' : '☀️';
+  const b = $('#btn-theme'); if (b) b.innerHTML = t === 'dark' ? IC.moon : IC.sun;
 }
 
 // ---------- tabs ----------
@@ -126,7 +142,7 @@ async function renderPane(pane) {
       const detail = state.view === 'details'
         ? `<span class="sz">${f.isDir ? '—' : fmtSize(f.size)}</span><span class="dt">${f.mtime ? fmtDate(f.mtime) : ''}</span><span class="sz">${esc(f.ext || (f.isDir ? 'folder' : ''))}</span>`
         : `<span class="sz">${f.isDir ? '' : fmtSize(f.size)}</span>`;
-      d.innerHTML = `<span>${iconFor(f)}</span><span class="nm">${esc(f.name)} ${tagDots(tags[f.path])}</span>${detail}`;
+      d.innerHTML = `<span class="rico">${iconFor(f)}</span><span class="nm">${esc(f.name)} ${tagDots(tags[f.path])}</span>${detail}`;
     }
     d.title = f.path;
     d.onclick = (e) => select(pane, f.path, e.ctrlKey || e.metaKey, e.shiftKey);
@@ -189,7 +205,7 @@ function renderTabs() {
     const d = document.createElement('div');
     d.className = 'tab' + (t.id === state.activeTabId ? ' active' : '');
     const nm = t.path === '/' ? '/' : t.path.split(/[/\\]/).filter(Boolean).pop();
-    d.innerHTML = `<span class="t" title="${esc(t.path)}">📁 ${esc(nm)}</span>`;
+    d.innerHTML = `<span class="t-ico">${IC.dir}</span><span class="t" title="${esc(t.path)}">${esc(nm)}</span>`;
     d.onclick = async () => { state.activeTabId = t.id; state.searchMode = false; $('#search').value = ''; await renderPane('left'); renderTabs(); };
     const x = document.createElement('button'); x.className = 'x'; x.textContent = '✕';
     x.onclick = (e) => { e.stopPropagation(); if (state.tabs.length === 1) return; state.tabs = state.tabs.filter((k) => k.id !== t.id); if (state.activeTabId === t.id) state.activeTabId = state.tabs[0].id; refreshActive(); };
@@ -201,14 +217,19 @@ async function refreshDrives() {
   try {
     const ds = await window.hannah.drives();
     for (const d of ds) {
-      const li = document.createElement('li'); li.textContent = '💽 ' + d.name; li.title = d.path;
+      const li = document.createElement('li'); li.innerHTML = `<span class="s-ico">${IC.drive}</span><span>${esc(d.name)}</span>`; li.title = d.path;
       li.onclick = () => navigate(d.path, state.activePane);
       ul.appendChild(li);
     }
   } catch { ul.innerHTML = '<li class="muted">No drives</li>'; }
 }
 function renderSidebar() {
-  const favs = getFavs(), ul = $('#favs'); ul.innerHTML = '';
+  let favs = getFavs();
+  if (!localStorage.getItem('hf.favs')) {
+    favs = [{ name: 'Home', path: state.home }];
+    setFavs(favs);
+  }
+  const ul = $('#favs'); ul.innerHTML = '';
   if (!favs.length) ul.innerHTML = '<li class="muted">No favorites yet</li>';
   for (const f of favs) {
     const li = document.createElement('li');
@@ -296,8 +317,8 @@ function showCtx(x, y, pane, f) {
     <div data-a="copy">Copy</div><div data-a="cut">Cut</div>
     <div data-a="paste" style="${state.clipboard ? '' : 'opacity:.4'}">Paste here</div><hr>
     <div data-a="rename">Rename</div><div data-a="fav">★ Add folder to favorites</div>
-    <div data-a="tag">🏷 Toggle tag…</div><hr>
-    <div data-a="zip">🗜️ Zip selection</div><div data-a="unzip" style="${f && f.ext === '.zip' ? '' : 'opacity:.4'}">Unzip here</div><hr>
+    <div data-a="tag">Toggle tag…</div><hr>
+    <div data-a="zip">Zip selection</div><div data-a="unzip" style="${f && f.ext === '.zip' ? '' : 'opacity:.4'}">Unzip here</div><hr>
     <div data-a="del" style="color:var(--danger)">Delete (to trash)</div>`;
   c.classList.remove('hidden');
   c.style.left = Math.min(x, innerWidth - 210) + 'px'; c.style.top = Math.min(y, innerHeight - 320) + 'px';

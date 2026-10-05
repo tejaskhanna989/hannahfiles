@@ -39,7 +39,8 @@
       "target": [
         "nsis",
         "portable"
-      ]
+      ],
+      "icon": "renderer/assets/icon.ico"
     },
     "nsis": {
       "oneClick": false,
@@ -51,7 +52,8 @@
         "AppImage",
         "deb"
       ],
-      "category": "Utility"
+      "category": "Utility",
+      "icon": "renderer/assets/icon.png"
     },
     "portable": {
       "artifactName": "HannahFiles-${version}-win.${ext}"
