@@ -15,7 +15,7 @@ function createWindow() {
     title: 'HannahFiles',
     icon: path.join(__dirname, 'renderer', 'assets', process.platform === 'win32' ? 'icon.ico' : 'icon.png'),
     autoHideMenuBar: true,
-    backgroundColor: '#1e1e2e',
+    backgroundColor: '#f3f3f3',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

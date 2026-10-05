@@ -26,7 +26,7 @@ const fmtSize = (b) => b < 1024 ? b + ' B' : b < 1048576 ? (b / 1024).toFixed(1)
 const fmtDate = (ms) => new Date(ms).toLocaleString();
 /* Inline SVG file icons — no emoji-font dependency, crisp at any size */
 const IC = {
-  dir: '<svg class="fic" viewBox="0 0 24 24"><path d="M2.5 6.5c0-1.1.9-2 2-2h4l2 2.4h8c1.1 0 2 .9 2 2V17c0 1.1-.9 2-2 2h-14c-1.1 0-2-.9-2-2z" fill="#6e8bff"/><path d="M2.5 10.5h19V17c0 1.1-.9 2-2 2h-15c-1.1 0-2-.9-2-2z" fill="#a9bdff"/></svg>',
+  dir: '<svg class="fic" viewBox="0 0 24 24"><path d="M2.5 6.5c0-1.1.9-2 2-2h4l2 2.4h8c1.1 0 2 .9 2 2V17c0 1.1-.9 2-2 2h-14c-1.1 0-2-.9-2-2z" fill="#dc9a2b"/><path d="M2.5 10.5h19V17c0 1.1-.9 2-2 2h-15c-1.1 0-2-.9-2-2z" fill="#ffca44"/></svg>',
   img: '<svg class="fic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5" fill="#3ecf8e"/><circle cx="9" cy="10" r="1.8" fill="#fff"/><path d="M4.5 18.5l4.5-5 3.2 3.6 2.4-2.6 4.4 4z" fill="#fff" opacity=".92"/></svg>',
   video: '<svg class="fic" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="#9b6bff"/><path d="M10 9.3v5.4l4.8-2.7z" fill="#fff"/></svg>',
   audio: '<svg class="fic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5" fill="#39d0d8"/><path d="M10 15.5V8.8l6-2v8.7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="15.8" r="2.2" fill="#fff"/><circle cx="14" cy="15.8" r="2.2" fill="#fff"/></svg>',
@@ -72,6 +72,7 @@ const parentOf = (p) => {
   applyTheme();
   const info = await window.hannah.info();
   Object.assign(state, info);
+  state.home = info.homedir;
   state.right.path = info.homedir;
   addTab(info.homedir);
   await refreshDrives();
@@ -84,7 +85,7 @@ const parentOf = (p) => {
 })();
 
 function applyTheme() {
-  const t = localStorage.getItem('hf.theme') || 'dark';
+  const t = localStorage.getItem('hf.theme') || 'light';
   document.documentElement.dataset.theme = t;
   const b = $('#btn-theme'); if (b) b.innerHTML = t === 'dark' ? IC.moon : IC.sun;
 }
@@ -227,6 +228,10 @@ function renderSidebar() {
   let favs = getFavs();
   if (!localStorage.getItem('hf.favs')) {
     favs = [{ name: 'Home', path: state.home }];
+    setFavs(favs);
+  } else if (favs.some((f) => f.path === '/')) {
+    // repair favorites seeded before home path was mapped correctly
+    favs = favs.map((f) => (f.path === '/' ? { name: 'Home', path: state.home } : f));
     setFavs(favs);
   }
   const ul = $('#favs'); ul.innerHTML = '';
