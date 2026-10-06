@@ -38,6 +38,7 @@ nfpms:
     formats:
       - deb
       - rpm
+      - archlinux
     maintainer: tejaskhanna989 <https://github.com/tejaskhanna989/hannahfiles>
     description: HannahFiles — fancy terminal file manager for Linux (GPLv3 fork of superfile).
     homepage: https://github.com/tejaskhanna989/hannahfiles

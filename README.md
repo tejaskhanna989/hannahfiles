@@ -1,7 +1,9 @@
-# HannahFiles 🎤
+# HannahFiles 🎤 — a JOKE file manager
 
-A **joke** file manager for Windows **and** Linux — one repo, one project, GPLv3.
-(Inspired by the legendary Hannah Montana Linux. No affiliation with Disney.)
+> ⚠️ **This is a parody project.** A joke file manager for Windows **and**
+> Linux, in the spirit of the legendary Hannah Montana Linux.
+> It really works — that's what makes it funny.
+> No affiliation with Disney, Miley Cyrus, or anyone with lawyers.
 
 | Platform | Location | Stack |
 |----------|----------|-------|
