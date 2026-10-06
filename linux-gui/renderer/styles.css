@@ -1,41 +1,41 @@
 /* HannahFiles — Fluent / native Windows 11 styling.
    Flat surfaces, 1px borders, system fonts, single accent. No gradients, no glow. */
 :root, html[data-theme="light"] {
-  --bg: #f9f9f9;
-  --bg2: #f3f3f3;
+  --bg: #fff7fb;
+  --bg2: #fde7f3;
   --panel: #ffffff;
-  --panel2: #fbfbfb;
-  --fg: #1b1b1b;
-  --muted: #616161;
-  --faint: #8a8a8a;
-  --accent: #9333CC;
-  --accent-soft: rgba(147, 51, 204, 0.1);
-  --border: #e8e8e8;
-  --border-strong: #d4d4d4;
-  --sel: #e6f0fa;
-  --sel-border: #9ec4e8;
-  --hover: #f0f0f0;
+  --panel2: #fdf2f8;
+  --fg: #3b0764;
+  --muted: #8a7aa5;
+  --faint: #b9a8d0;
+  --accent: #db2777;
+  --accent-soft: rgba(219, 39, 119, 0.12);
+  --border: #f3d1e3;
+  --border-strong: #e5b3cf;
+  --sel: #fce7f3;
+  --sel-border: #f9a8d4;
+  --hover: #fbe8f2;
   --danger: #c42b1c;
-  --shadow: 0 8px 16px rgba(0, 0, 0, 0.14);
+  --shadow: 0 8px 16px rgba(219, 39, 119, 0.14);
   color-scheme: light;
 }
 html[data-theme="dark"] {
-  --bg: #191919;
-  --bg2: #202020;
-  --panel: #202020;
-  --panel2: #2b2b2b;
-  --fg: #ffffff;
-  --muted: #a8a8a8;
-  --faint: #7d7d7d;
-  --accent: #FF5DA2;
-  --accent-soft: rgba(255, 93, 162, 0.12);
-  --border: #2b2b2b;
-  --border-strong: #3d3d3d;
-  --sel: #2e3c46;
-  --sel-border: #3f6d87;
-  --hover: #2d2d2d;
-  --danger: #f28b82;
-  --shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  --bg: #fff7fb;
+  --bg2: #fde7f3;
+  --panel: #ffffff;
+  --panel2: #fdf2f8;
+  --fg: #3b0764;
+  --muted: #8a7aa5;
+  --faint: #b9a8d0;
+  --accent: #db2777;
+  --accent-soft: rgba(219, 39, 119, 0.12);
+  --border: #f3d1e3;
+  --border-strong: #e5b3cf;
+  --sel: #fce7f3;
+  --sel-border: #f9a8d4;
+  --hover: #fbe8f2;
+  --danger: #c42b1c;
+  --shadow: 0 8px 16px rgba(219, 39, 119, 0.14);
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
