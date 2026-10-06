@@ -85,7 +85,7 @@ const parentOf = (p) => {
 })();
 
 function applyTheme() {
-  const t = localStorage.getItem('hf.theme') || 'dark';
+  const t = localStorage.getItem('hf.theme') || 'light';
   document.documentElement.dataset.theme = t;
   const b = $('#btn-theme'); if (b) b.innerHTML = t === 'dark' ? IC.moon : IC.sun;
 }
