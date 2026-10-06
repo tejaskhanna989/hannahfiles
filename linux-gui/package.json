@@ -1,6 +1,6 @@
 {
   "name": "hannahfiles-gui",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "HannahFiles GUI — a joke graphical file manager for Linux",
   "main": "main.js",
   "scripts": {
