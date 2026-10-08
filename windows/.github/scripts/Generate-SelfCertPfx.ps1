@@ -9,7 +9,7 @@ param(
 )
 
 $CertFriendlyName = "FilesApp_SelfSigned"
-$CertPublisher = "CN=Files"
+$CertPublisher = "CN=B98E485A-8E53-46C4-BED3-FB49CC746FAC"
 $CertStoreLocation = "Cert:\CurrentUser\My"
 
 # Generate self signed cert
