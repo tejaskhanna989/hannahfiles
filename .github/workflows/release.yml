@@ -95,6 +95,15 @@ jobs:
             Where-Object { $_.FullName -like '*win-x64\publish' } |
             Select-Object -First 1
           if (-not $pub) { throw "Publish output not found" }
+          $bat = @(
+            '@echo off',
+            'echo Installing Windows App Runtime (required once)...',
+            'powershell -Command "Invoke-WebRequest -Uri ''https://aka.ms/windowsappsdk/2.5/latest/windowsappruntimeinstall-x64.exe'' -OutFile ''%TEMP%\winappruntime.exe''"',
+            '"%TEMP%\winappruntime.exe" --quiet',
+            'echo Done. You can now run Files.exe.',
+            'pause'
+          )
+          $bat | Set-Content "$($pub.FullName)\Install-WindowsAppRuntime.bat" -Encoding ASCII
           Compress-Archive -Path "$($pub.FullName)\*" -DestinationPath "HannahFiles-windows-x64-portable.zip"
           choco install nsis -y --no-progress
           & 'C:\Program Files (x86)\NSIS\makensis.exe' /DAPPDIR="$($pub.FullName)" /DOUTFILE="${{ github.workspace }}\HannahFiles-setup-x64.exe" windows\installer\hannahfiles.nsi
