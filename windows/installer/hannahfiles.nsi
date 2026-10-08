@@ -20,7 +20,7 @@ Section "Install"
   SetOutPath "$PICTURES\HannahFiles"
   File "..\..\wallpapers\*.jpg"
   CreateDirectory "$SMPROGRAMS\HannahFiles"
-  CreateShortcut "$SMPROGRAMS\HannahFiles\HannahFiles.lnk" "$INSTDIR\Files.App.exe"
+  CreateShortcut "$SMPROGRAMS\HannahFiles\HannahFiles.lnk" "$INSTDIR\Files.exe"
   CreateShortcut "$SMPROGRAMS\HannahFiles\Wallpapers.lnk" "$PICTURES\HannahFiles"
   WriteUninstaller "$INSTDIR\uninstall.exe"
 SectionEnd
