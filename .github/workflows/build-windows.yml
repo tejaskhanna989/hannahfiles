@@ -12,12 +12,13 @@ on:
       - '.github/workflows/build-windows.yml'
   workflow_dispatch:
 
-# MSIX packaging via GenerateAppxPackageOnBuild is currently a no-op on the
-# hosted toolchain (it silently produces nothing, upstream included), so we
-# ship a self-contained portable ZIP instead. MSIX signing can return later.
+# MSIX is packed manually with makeappx (GenerateAppxPackageOnBuild is a
+# no-op on the hosted toolchain) and self-signed. Portable ZIP + NSIS EXE
+# ship alongside it.
 env:
   APP_PROJECT_PATH: 'windows\src\Files.App\Files.App.csproj'
   LAUNCHER_PROJECT_PATH: 'windows\src\Files.App.Launcher\Files.App.Launcher.vcxproj'
+  CERT_PATH: '${{ github.workspace }}\windows-ci-selfsigned.pfx'
 
 jobs:
   build-windows:
@@ -80,6 +81,30 @@ jobs:
         run: |
           & 'C:\Program Files (x86)\NSIS\makensis.exe' /DAPPDIR="$env:PUBDIR" /DOUTFILE="${{ github.workspace }}\HannahFiles-setup-x64.exe" windows\installer\hannahfiles.nsi
 
+      - name: Create self-signed cert
+        shell: pwsh
+        run: windows\.github\scripts\Generate-SelfCertPfx.ps1 -Destination "$env:CERT_PATH"
+
+      - name: Pack and sign MSIX
+        shell: pwsh
+        run: |
+          $pub = Get-ChildItem windows\src\Files.App\bin\Release -Recurse -Directory |
+            Where-Object { $_.FullName -like '*win-x64\publish' } |
+            Select-Object -First 1
+          if (-not $pub) { throw "Publish output not found" }
+          $stage = "msix-stage"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          Copy-Item "$($pub.FullName)\*" $stage -Recurse
+          Remove-Item "$stage\*.pdb" -Force
+          New-Item -ItemType Directory -Force -Path "$stage\Assets\AppTiles\Dev" | Out-Null
+          Copy-Item "windows\src\Files.App\Assets\AppTiles\Dev\*" "$stage\Assets\AppTiles\Dev\" -Recurse
+          New-Item -ItemType Directory -Force -Path "$stage\Assets\Archives" | Out-Null
+          Copy-Item "windows\src\Files.App\Assets\Archives\*" "$stage\Assets\Archives\"
+          (Get-Content "windows\src\Files.App\Package.appxmanifest") -replace '\$targetnametoken\$','Files.App' -replace '\$targetentrypoint\$','Files.App.App' | Set-Content "$stage\AppxManifest.xml"
+          $kit = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\x64" -Directory | Sort-Object FullName -Descending | Select-Object -First 1
+          & "$($kit.FullName)\makeappx.exe" pack /d $stage /p "HannahFiles.msix"
+          & "$($kit.FullName)\signtool.exe" sign /fd SHA256 /f "$env:CERT_PATH" "HannahFiles.msix"
+
       - name: Upload installers
         uses: actions/upload-artifact@v4
         with:
@@ -87,3 +112,4 @@ jobs:
           path: |
             HannahFiles-windows-x64-portable.zip
             HannahFiles-setup-x64.exe
+            HannahFiles.msix

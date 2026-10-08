@@ -82,7 +82,11 @@ jobs:
           dotnet publish "$env:APP_PROJECT_PATH" `
             -c Release -r win-x64 --self-contained -p:Platform=x64
 
-      - name: Zip portable build and build setup EXE
+      - name: Create self-signed cert
+        shell: pwsh
+        run: windows\.github\scripts\Generate-SelfCertPfx.ps1 -Destination "${{ github.workspace }}\windows-ci-selfsigned.pfx"
+
+      - name: Zip portable, build setup EXE, pack and sign MSIX
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -94,7 +98,20 @@ jobs:
           Compress-Archive -Path "$($pub.FullName)\*" -DestinationPath "HannahFiles-windows-x64-portable.zip"
           choco install nsis -y --no-progress
           & 'C:\Program Files (x86)\NSIS\makensis.exe' /DAPPDIR="$($pub.FullName)" /DOUTFILE="${{ github.workspace }}\HannahFiles-setup-x64.exe" windows\installer\hannahfiles.nsi
-          gh release upload "${{ github.ref_name }}" "HannahFiles-windows-x64-portable.zip" "HannahFiles-setup-x64.exe" --clobber
+          $stage = "msix-stage"
+          $cert = "${{ github.workspace }}\windows-ci-selfsigned.pfx"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          Copy-Item "$($pub.FullName)\*" $stage -Recurse
+          Remove-Item "$stage\*.pdb" -Force
+          New-Item -ItemType Directory -Force -Path "$stage\Assets\AppTiles\Dev" | Out-Null
+          Copy-Item "windows\src\Files.App\Assets\AppTiles\Dev\*" "$stage\Assets\AppTiles\Dev\" -Recurse
+          New-Item -ItemType Directory -Force -Path "$stage\Assets\Archives" | Out-Null
+          Copy-Item "windows\src\Files.App\Assets\Archives\*" "$stage\Assets\Archives\"
+          (Get-Content "windows\src\Files.App\Package.appxmanifest") -replace '\$targetnametoken\$','Files.App' -replace '\$targetentrypoint\$','Files.App.App' | Set-Content "$stage\AppxManifest.xml"
+          $kit = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\x64" -Directory | Sort-Object FullName -Descending | Select-Object -First 1
+          & "$($kit.FullName)\makeappx.exe" pack /d $stage /p "HannahFiles.msix"
+          & "$($kit.FullName)\signtool.exe" sign /fd SHA256 /f $cert "HannahFiles.msix"
+          gh release upload "${{ github.ref_name }}" "HannahFiles-windows-x64-portable.zip" "HannahFiles-setup-x64.exe" "HannahFiles.msix" --clobber
 
   gui-release:
     needs: linux-release

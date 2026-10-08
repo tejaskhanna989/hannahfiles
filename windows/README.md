@@ -27,7 +27,10 @@ Modifications vs upstream are tracked in git history (`DisplayName`/identity reb
 2. Set the startup project to `Files.App`, platform `x64`.
 3. Press F5 to run unpackaged, or **Publish → Create App Packages** for a sideload `.msixbundle`.
 
-Signing: CI ships a portable ZIP (self-contained). MSIX via `GenerateAppxPackageOnBuild` currently produces nothing on the hosted toolchain (same for upstream) — MSIX signing can return once that works again.
+Signing: CI packs the MSIX manually with makeappx and signs it with a fresh
+self-signed cert per run (install the cert on first use). For releases, sign
+with your own cert and update the `Publisher="CN=..."` attribute in
+`src/Files.App/Package.appxmanifest` to match.
 
 CI: `.github/workflows/build-windows.yml` (repo root) builds the `windows/` tree on Windows runners and uploads the unsigned MSIX. The upstream `ci.yml`/`cd-*` workflows under `windows/.github` are inert here (not at repo root, and gated to the upstream owner).
 
