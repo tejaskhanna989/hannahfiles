@@ -107,7 +107,7 @@ jobs:
           Copy-Item "windows\src\Files.App\Assets\AppTiles\Dev\*" "$stage\Assets\AppTiles\Dev\" -Recurse
           New-Item -ItemType Directory -Force -Path "$stage\Assets\Archives" | Out-Null
           Copy-Item "windows\src\Files.App\Assets\Archives\*" "$stage\Assets\Archives\"
-          (Get-Content "windows\src\Files.App\Package.appxmanifest") -replace '\$targetnametoken\$','Files.App' -replace '\$targetentrypoint\$','Files.App.App' | Set-Content "$stage\AppxManifest.xml"
+          (Get-Content "windows\src\Files.App\Package.appxmanifest") -replace '\$targetnametoken\$','Files' -replace '\$targetentrypoint\$','Files.App.App' | Set-Content "$stage\AppxManifest.xml"
           $kit = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\x64" -Directory | Sort-Object FullName -Descending | Select-Object -First 1
           & "$($kit.FullName)\makeappx.exe" pack /d $stage /p "HannahFiles.msix"
           & "$($kit.FullName)\signtool.exe" sign /fd SHA256 /f $cert "HannahFiles.msix"
